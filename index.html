@@ -16,7 +16,7 @@
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="js/plugins.js"></script>
-        <!--<script src="js/controllers.js"></script>-->
+        <script src="js/controllers.js"></script>
     </head>
     <body ng-controller="customersCtrl">
         <header class="header">
@@ -46,19 +46,5 @@
             </div>
         </section>
         <a href="#" class="icon-top"><img src="img/arw-up.svg" alt="myApp arrow" /></a>
-
-        <script>
-            var app = angular.module('myApp', []);
-            app.controller('customersCtrl', function($scope, $http) {
-            $http.get("http://www.w3schools.com/angular/customers.php")
-                .success(function (data) { $scope.names = data.records; })
-                .error(function (data) { console.log('error'); });
-            });
-
-            app.config(['$httpProvider', function($httpProvider) { // For Chrome
-                $httpProvider.defaults.useXDomain = true;
-                delete $httpProvider.defaults.headers.common['X-Requested-With'];
-            }]); 
-        </script>
     </body>
 </html>
