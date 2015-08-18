@@ -262,7 +262,7 @@
 @mixin icon-btn {
   height: 50px;
   width: 50px;
-  background-color: $black;
+  background-color: $grey-dark;
   color: $white;
   @include transition(all 0.25s);
 }

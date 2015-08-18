@@ -12,39 +12,53 @@
 
         <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700|Montserrat:700,400' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="css/main.css">
-        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="js/plugins.js"></script>
-        <script src="js/controllers.js"></script>
+        <!--<script src="js/controllers.js"></script>-->
     </head>
-    <body ng-controller="myAppCtrl">
+    <body ng-controller="customersCtrl">
         <header class="header">
             <a class="logo" href="/"><img src="img/logo.svg" alt="myApp logo" /></a>
             <div class="search-bar">
-                <input type="text" ng-model="query" placeholder="Search" />    
+                <input type="text" placeholder="Search" ng-model="queryCust" />    
                 <select ng-model="orderProp">
                     <option default value="">Sort By:</option>
-                    <option value="name">Alphabetical</option>                  
-                    <option value="age">Newest</option>                  
+                    <option value="Name">Name A to Z</option>                  
+                    <option value="City">City A to Z</option>                  
+                    <option value="Country">Country A to Z</option>                  
                 </select>
             </div>
         </header>
         <section class="section section-body">
             <div class="container container-main">
-                <h1>Section Title</h1>
+                <h1 style="display: none;">Customers List</h1>
 
                 <div class="wrapper">
-                    <div class="row total">Total: {{phones.length}}</div>
-
-                    <div class="row" ng-repeat="phone in phones | filter:query | orderBy:orderProp">
-                        <h2>{{phone.name}}</h2> 
-                        <div>{{phone.snippet}}</div>
+                    <div class="row total">Total: {{ (names|filter:queryCust).length }} Customers</div>
+                    <div class="row" ng-repeat="x in names | filter: queryCust | orderBy:orderProp">
+                        <h2>{{x.Name}}</h2> 
+                        <div>{{x.City + ', ' + x.Country}}</div>
                     </div>
                 </div>
 
             </div>
         </section>
-        <a class="icon-top"><img src="img/arw-up.svg" alt="myApp arrow" /></a>
+        <a href="#" class="icon-top"><img src="img/arw-up.svg" alt="myApp arrow" /></a>
+
+        <script>
+            var app = angular.module('myApp', []);
+            app.controller('customersCtrl', function($scope, $http) {
+            $http.get("http://www.w3schools.com/angular/customers.php")
+                .success(function (data) { $scope.names = data.records; })
+                .error(function (data) { console.log('error'); });
+            });
+
+            app.config(['$httpProvider', function($httpProvider) { // For Chrome
+                $httpProvider.defaults.useXDomain = true;
+                delete $httpProvider.defaults.headers.common['X-Requested-With'];
+            }]); 
+        </script>
     </body>
 </html>
